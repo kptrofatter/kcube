@@ -1,0 +1,3 @@
+check msg against device
+
+headers, initialization, zeroing, set functions in python

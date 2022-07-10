@@ -1,0 +1,4 @@
+gcc -c kcube_message.c -fpic -Wall -Werror
+gcc -c kcube_server.c -I/usr/include/libftdi1/ -fpic -Wall -Werror
+gcc -shared -o libkcube.so kcube_message.o kcube_server.o -lftdi1 -pthread -fpic -Wall -Werror
+rm *.o
