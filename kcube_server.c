@@ -68,7 +68,7 @@ static pthread_cond_t sync_cond = PTHREAD_COND_INITIALIZER;
 // timing
 static const struct timespec pre_purge_dwell_time = {0, 50000};
 static const struct timespec post_purge_dwell_time = {0, 50000};
-static struct timespec sync_timeout;
+//static struct timespec sync_timeout;
 
 // logging ===================================================================//
 static bool should_log(enum kcube_server_log_level log_level)
@@ -370,17 +370,18 @@ static int wait_on_kcube_server(void)
 {
 	// wait
 	pthread_mutex_lock(&sync_mutex);
-	timespec_get(&sync_timeout, TIME_UTC);
-	sync_timeout.tv_sec += 1;
+	//timespec_get(&sync_timeout, TIME_UTC);
+	//sync_timeout.tv_sec += 1;
 	if (should_log(KCUBE_SERVER_LOG_LEVEL_debug)) fprintf(stderr, "debug: wait\n");
-	int result = pthread_cond_timedwait(&sync_cond, &sync_mutex, &sync_timeout);
+	//int result = pthread_cond_timedwait(&sync_cond, &sync_mutex, &sync_timeout);
+	int result = pthread_cond_wait(&sync_cond, &sync_mutex);
 	pthread_mutex_unlock(&sync_mutex);
 	
 	// error if timed out
-	if (result == ETIMEDOUT) {
-		fprintf(stderr, "error: timed out waiting for server\n");
-		kcube_server.error_flag = true;
-	}
+	//if (result == ETIMEDOUT) {
+	//	fprintf(stderr, "error: timed out waiting for server\n");
+	//	kcube_server.error_flag = true;
+	//}
 	
 	return result;
 }

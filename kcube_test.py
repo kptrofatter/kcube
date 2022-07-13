@@ -8,7 +8,7 @@ from ctypes import *
 from time import sleep
 
 # load shared library
-libkcube = CDLL("/home/demob/projects/devices/kcube/libkcube.so")
+libkcube = CDLL("libkcube.dll")
 # fix ctypes function signatures
 libkcube.kcube_server_request.restype = ctypes.POINTER(ctypes.c_char)
 libkcube.kcube_server_status.restype = ctypes.POINTER(ctypes.c_char)

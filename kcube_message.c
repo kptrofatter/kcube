@@ -398,7 +398,7 @@ void mgmsg_pz_get_outputpos(uint8_t *buffer, uint16_t *channel, uint16_t *positi
 	*position = READ_UINT16();
 }
 
-void mgmsg_pz_set_inputvoltssrc(uint8_t *buffer, uint8_t dest, uint16_t channel, int16_t voltsrc)
+void mgmsg_pz_set_inputvoltssrc(uint8_t *buffer, uint8_t dest, uint16_t channel, uint16_t voltsrc)
 {
 	packet_header(buffer, MGMSG_PZ_SET_INPUTVOLTSSRC, 0x0004, dest, KCUBE_HOST);
 	int i = KCUBE_MESSAGE_HEADER_SIZE;
