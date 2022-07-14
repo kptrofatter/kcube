@@ -316,19 +316,21 @@ static void kcube_server_process_device(int i)
 			kcube_message_dump(device->rx_buffer);
 			
 		} else {
-			// unexpected packet data
-			fprintf(stderr, "warning: kcube server (%i) unexpected rx packet data\n", i);
+			// unexpected message
+			fprintf(stderr, "warning: kcube server (%i) unexpected rx message\n", i);
 			kcube_message_dump(device->rx_buffer);
 		}
 		
 	} else if (result < 0) {
-		// read error
-		fprintf(stderr, "error: ftdi_read_data() failed\n");
-		kcube_server.error_flag = true;
+		// read error (likely disconnected usb device)
+		if (!kcube_server.error_flag) {
+			fprintf(stderr, "error: rx failed\n");
+			kcube_server.error_flag = true;
+		}
 		
 	} else if (result != 0) {
 		// unexpected header data
-		fprintf(stderr, "warning: kcube server (%i) unexpected rx header data\n", i);
+		fprintf(stderr, "warning: kcube server (%i) unexpected rx data\n", i);
 		print_hex(device->rx_buffer, result);
 	}
 }
@@ -368,20 +370,29 @@ static void *kcube_server_loop(void *arg)
 // host-server synchronization ===============================================//
 static int wait_on_kcube_server(void)
 {
-	// wait
+	// lock condition mutex
 	pthread_mutex_lock(&sync_mutex);
+	
+	// log wait
+	if (should_log(KCUBE_SERVER_LOG_LEVEL_debug)) fprintf(stderr, "debug: wait\n");
+	
+	// compute timeout time
 	timespec_get(&sync_timeout, TIME_UTC);
 	sync_timeout.tv_sec += 1;
-	if (should_log(KCUBE_SERVER_LOG_LEVEL_debug)) fprintf(stderr, "debug: wait\n");
+	
+	// wait for server signal
 	int result = pthread_cond_timedwait(&sync_cond, &sync_mutex, &sync_timeout);
+	
+	// unlock condition mutex
 	pthread_mutex_unlock(&sync_mutex);
 	
-	// error if timed out
+	// timed out
 	if (result == ETIMEDOUT) {
 		fprintf(stderr, "error: timed out waiting for server\n");
 		kcube_server.error_flag = true;
 	}
 	
+	// return
 	return result;
 }
 

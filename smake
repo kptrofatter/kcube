@@ -1,4 +1,6 @@
-gcc -c kcube_message.c -Wall -Werror
-gcc -c kcube_server.c -I/usr/include/libftdi1/ -Wall -Werror
-gcc -o kcube_test kcube_test.c kcube_message.o kcube_server.o -lftdi1 -pthread -Wall -Werror
+CC=gcc
+${CC} -c kcube_message.c -Wall -Werror
+${CC} -c kcube_server.c -I/usr/include/libftdi1/ -pthread -Wall -Werror
+${CC} -c kcube_test.c -Wall -Werror
+${CC} -o kcube_test kcube_test.o kcube_message.o kcube_server.o -lftdi1 -pthread -Wall -Werror
 rm *.o
