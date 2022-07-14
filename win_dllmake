@@ -1,5 +1,21 @@
-CC=gcc
-${CC} -c kcube_message.c -fpic -Wall -Werror
-${CC} -c kcube_server.c -I/usr/include/libftdi1/ -fpic -Wall -Werror
-${CC} -shared -o libkcube.dll kcube_message.o kcube_server.o /usr/lib/libftdi1.a /usr/lib/libusb-1.0.a -pthread -fpic -Wall -Werror
-rm *.o
+# toolchain name
+ARCH=x86_64
+OS=w64
+TOOLS=mingw32
+PREFIX=${ARCH}-${OS}-${TOOLS}
+echo ${PREFIX}
+
+# set compiler and compiler paths
+CC=${PREFIX}-gcc
+SYSROOT=/usr/${PREFIX}/sys-root/mingw/
+INC=${SYSROOT}/inc/
+LIB=${SYSROOT}/lib/
+LIBS="-lftdi1 -lusb-1.0"
+
+echo "compiling"
+${CC} -c kcube_message.c -fPIC -Wall -Werror
+${CC} -c kcube_server.c -I${INC} -pthread -fPIC -Wall -Werror
+
+echo "linking"
+${CC} -shared -o kcube.dll kcube_message.o kcube_server.o -L${LIB} ${LIBS} -pthread -fPIC -Wall -Werror
+

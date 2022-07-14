@@ -61,7 +61,7 @@ void mgmsg_pz_get_outputvolts(uint8_t *buffer, uint16_t *channel, int16_t *volta
 void mgmsg_pz_set_outputpos(uint8_t *buffer, uint8_t dest, uint16_t channel, uint16_t position);
 void mgmsg_pz_req_outputpos(uint8_t *buffer, uint8_t dest, uint8_t channel);
 void mgmsg_pz_get_outputpos(uint8_t *buffer, uint16_t *channel, uint16_t *position);
-void mgmsg_pz_set_inputvoltssrc(uint8_t *buffer, uint8_t dest, uint16_t channel, int16_t voltsrc);
+void mgmsg_pz_set_inputvoltssrc(uint8_t *buffer, uint8_t dest, uint16_t channel, uint16_t voltsrc);
 void mgmsg_pz_req_inputvoltssrc(uint8_t *buffer, uint8_t dest, uint8_t channel);
 void mgmsg_pz_get_inputvoltssrc(uint8_t *buffer, uint16_t *channel, uint16_t *voltsrc);
 void mgmsg_pz_set_piconsts(uint8_t *buffer, uint8_t dest, uint16_t channel, uint16_t propconst, uint16_t intconst);

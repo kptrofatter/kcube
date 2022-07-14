@@ -68,7 +68,7 @@ static pthread_cond_t sync_cond = PTHREAD_COND_INITIALIZER;
 // timing
 static const struct timespec pre_purge_dwell_time = {0, 50000};
 static const struct timespec post_purge_dwell_time = {0, 50000};
-static struct timespec sync_timeout;
+//static struct timespec sync_timeout;
 
 // logging ===================================================================//
 static bool should_log(enum kcube_server_log_level log_level)
