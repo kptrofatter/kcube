@@ -3,15 +3,12 @@
 #                                                                              #
 #                                                                              #
 #==============================================================================#
-import ctypes
-from ctypes import *
 from time import sleep
+import ctypes
+import kcube
 
 # load shared library
-libkcube = CDLL("libkcube.dll")
-# fix ctypes function signatures
-libkcube.kcube_server_request.restype = ctypes.POINTER(ctypes.c_char)
-libkcube.kcube_server_status.restype = ctypes.POINTER(ctypes.c_char)
+libkcube = kcube.import_library("/home/demob/projects/devices/kcube/")
 
 # hardcoded values
 id_usb_device = 0x50
@@ -36,7 +33,7 @@ if kpz101 == -1 or ksg101 == -1:
 	quit()
 
 # test set message
-msg = bytes(kcube_message_max_length)
+msg = ctypes.cast(bytes(kcube_message_max_length), ctypes.POINTER(ctypes.c_uint8))
 libkcube.mgmsg_mod_identify(msg, id_usb_device, 1)
 libkcube.kcube_server_set(kpz101, msg)
 libkcube.kcube_server_set(ksg101, msg)

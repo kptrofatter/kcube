@@ -1,5 +1,0 @@
-CC=gcc
-${CC} -c kcube_message.c -fpic -Wall -Werror
-${CC} -c kcube_server.c -I/usr/include/libftdi1/ -pthread -fpic -Wall -Werror
-${CC} -shared -o libkcube.so kcube_message.o kcube_server.o -lftdi1 -pthread -fpic -Wall -Werror
-rm *.o

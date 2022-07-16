@@ -1,0 +1,8 @@
+CC='gcc'
+CFLAGS='-Wall -Werror'
+LIBS='-lftdi1'
+${CC} -c kcube_message.c ${CFLAGS}
+${CC} -c kcube_server.c -I/usr/include/libftdi1/ -pthread ${CFLAGS}
+${CC} -c kcube_test.c ${CFLAGS}
+${CC} -o kcube_test kcube_message.o kcube_server.o kcube_test.o ${LIBS} -pthread ${CFLAGS}
+rm *.o

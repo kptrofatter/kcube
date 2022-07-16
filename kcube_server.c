@@ -68,7 +68,7 @@ static pthread_cond_t sync_cond = PTHREAD_COND_INITIALIZER;
 // timing
 static const struct timespec pre_purge_dwell_time = {0, 50000};
 static const struct timespec post_purge_dwell_time = {0, 50000};
-//static struct timespec sync_timeout;
+static struct timespec sync_timeout;
 
 // logging ===================================================================//
 static bool should_log(enum kcube_server_log_level log_level)
@@ -220,7 +220,7 @@ static void kcube_server_tx(struct kcube_device *device)
 {
 	// debug
 	if (should_log(KCUBE_SERVER_LOG_LEVEL_debug)) {
-		fprintf(stderr, "debug: tx message (%i)", kcube_server.device_index);
+		fprintf(stderr, "debug: tx message (%i)\n", kcube_server.device_index);
 		kcube_message_dump(kcube_server.tx_buffer);
 	}
 	// tx

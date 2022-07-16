@@ -1,7 +1,7 @@
 #==============================================================================#
-#																			  #
-#																			  #
-#																			  #
+#                                                                              #
+#                                                                              #
+#                                                                              #
 #==============================================================================#
 import os
 import sys
@@ -76,14 +76,14 @@ def import_library(kcube_dir):
 	
 	# interface function prototypes
 	c_char_pp = ctypes.POINTER(c_char_p)
-	c_uint8_p = c_char_p #ctypes.POINTER(c_ubyte)
+	c_uint8_p = ctypes.POINTER(c_uint8)
 	c_uint8_pp = ctypes.POINTER(c_uint8_p)
 	c_uint16_p = ctypes.POINTER(c_ushort)
 	c_uint32_p = ctypes.POINTER(c_uint)
 	c_int16_p = ctypes.POINTER(c_short)
 	c_int32_p = ctypes.POINTER(c_int)
 	
-	# kcube_server.h
+	# kcube_server.h ======================================================#
 	kcube.kcube_server_set_log_level.argtypes = [c_int]
 	kcube.kcube_server_set_log_level.restype = None
 	kcube.kcube_server_error.argtypes = None
@@ -103,7 +103,7 @@ def import_library(kcube_dir):
 	kcube.kcube_server_status.argtypes = [c_int]
 	kcube.kcube_server_status.restype = c_uint8_p
 	
-	# kcube_message.h
+	# kcube_message.h =====================================================#
 	# decode header
 	kcube.kcube_message_decode_id.argtypes = [c_uint8_p]
 	kcube.kcube_message_decode_id.restype = c_uint16
@@ -277,3 +277,10 @@ def import_library(kcube_dir):
 	kcube.kcube_message_print_ksg101_pzstatus.restype = None
 	
 	return kcube
+
+#==============================================================================#
+#                                                                              #
+#                                                                              #
+#                                                                              #
+#==============================================================================#
+
