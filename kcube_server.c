@@ -377,7 +377,7 @@ static int wait_on_kcube_server(void)
 	if (should_log(KCUBE_SERVER_LOG_LEVEL_debug)) fprintf(stderr, "debug: wait\n");
 	
 	// compute timeout time
-	timespec_get(&sync_timeout, TIME_UTC);
+	clock_gettime(CLOCK_REALTIME, &sync_timeout);
 	sync_timeout.tv_sec += 1;
 	
 	// wait for server signal

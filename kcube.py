@@ -59,7 +59,7 @@ def import_library(kcube_dir):
 		
 	elif platform == 'win32':
 		sys_dir = "C:\\cygwin64\\usr\\x86_64-w64-mingw32\\sys-root\\mingw\\"
-		bin_dir = sys_dir + "bin\\"
+		bin_dir = sys_dir + "bin\\" + ";C:\\cygwin64\\home\\Neurophos_Design\\.x86_64-w64-mingw32\\bin\\"
 		kcube_lib_filename = "libkcube.dll"
 		
 	else:

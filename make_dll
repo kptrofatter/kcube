@@ -9,14 +9,14 @@ echo ${PREFIX}
 CC=${PREFIX}-gcc
 SYSROOT=/usr/${PREFIX}/sys-root/mingw/
 CFLAGS='-fpic -Wall -Werror'
-INC=${SYSROOT}/inc/
-LIB=${SYSROOT}/lib/
+INC="-I/home/${USER}/.${PREFIX}/include -I${SYSROOT}/include/"
+LIB="-L/home/${USER}/.${PREFIX}/bin -L${SYSROOT}/lib/"
 LIBS="-lftdi1 -lusb-1.0"
 
 echo "compiling"
 ${CC} -c kcube_message.c ${CFLAGS}
-${CC} -c kcube_server.c -I${INC} -pthread ${CFLAGS}
+${CC} -c kcube_server.c ${INC} -pthread ${CFLAGS}
 
 echo "linking"
-${CC} -shared -o kcube.dll kcube_message.o kcube_server.o -L${LIB} ${LIBS} -pthread ${CFLAGS}
+${CC} -shared -o libkcube.dll kcube_message.o kcube_server.o ${LIB} ${LIBS} -pthread ${CFLAGS}
 
