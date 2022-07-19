@@ -8,7 +8,8 @@ import ctypes
 import kcube
 
 # load shared library
-libkcube = kcube.import_library("/home/demob/projects/devices/kcube/")
+#libkcube = kcube.import_library("/home/demob/projects/devices/kcube/")
+libkcube = kcube.import_library("C:\\cygwin64\\home\\Neurophos\\kcube\\")
 
 # hardcoded values
 id_usb_device = 0x50

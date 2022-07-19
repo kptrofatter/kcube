@@ -1,3 +1,0 @@
-detect hangs on open (possibly due to another duplicate process owning the devices)
-
-headers, initialization, zeroing, set functions in python

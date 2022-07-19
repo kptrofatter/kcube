@@ -1,9 +1,9 @@
 #!/bin/sh
 
-export SYSROOT=/usr/x86_64-w64-mingw32/sys-root/mingw/
+export SYSROOT=/usr/x86_64-w64-mingw32/sys-root/mingw
 
 export PKG_CONFIG_PATH=
-export PKG_CONFIG_LIBDIR=${SYSROOT}lib/pkgconfig:${SYSROOT}share/pkgconfig
+export PKG_CONFIG_LIBDIR=${SYSROOT}/lib/pkgconfig:${SYSROOT}/share/pkgconfig
 export PKG_CONFIG_SYSROOT_DIR=${SYSROOT}
 export PKG_CONFIG_ALLOW_SYSTEM_CFLAGS
 export PKG_CONFIG_ALLOW_SYSTEM_LIBS

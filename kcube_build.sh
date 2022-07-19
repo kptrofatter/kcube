@@ -1,14 +1,12 @@
 #!/bin/bash
 
-PATH="/usr/local/bin:/usr/bin:/bin"
-
 ARCH=x86_64
 PLATFORM=w64
 TOOLCHAIN=mingw32
 TARGET=${ARCH}-${PLATFORM}-${TOOLCHAIN}
 SYSROOT=/usr/${TARGET}/sys-root/mingw
 
-PATH="${PATH}:${SYSROOT}/bin"
+PATH="/usr/local/bin:/usr/bin:${SYSROOT}/bin"
 
 CC=${TARGET}-gcc
 CXX=${TARGET}-g++
@@ -19,27 +17,6 @@ rm -rf /home/${USER}/.${TARGET}/*
 
 mkdir build
 cd build
-
-echo // building libconfuse =======================================================//
-# build libconfuse
-git clone https://github.com/libconfuse/libconfuse
-cd libconfuse
-./autogen.sh
-./configure \
-	CC=${CC} \
-	PKG_CONFIG=${PKG_CONFIG} \
-	PKG_CONFIG_LIBDIR="${SYSROOT}/lib/pkgconfig:${SYSROOT}/share/pkgconfig" \
-	--host=${TARGET} \
-	--with-sysroot=${SYSROOT} \
-	--prefix=/home/${USER}/.${TARGET}
-cd src
-make
-make install
-cd ..
-cd ..
-echo
-
-exit 0
 
 # build libusb
 echo // building libusb ===========================================================//
@@ -60,19 +37,40 @@ make install
 cd ..
 echo
 
+echo // building libconfuse =======================================================//
+# build libconfuse
+git clone https://github.com/libconfuse/libconfuse
+cd libconfuse
+./autogen.sh
+./configure \
+	CC=${CC} \
+	PKG_CONFIG=${PKG_CONFIG} \
+	PKG_CONFIG_LIBDIR="${SYSROOT}/lib/pkgconfig:${SYSROOT}/share/pkgconfig" \
+	--host=${TARGET} \
+	--with-sysroot=${SYSROOT} \
+	--prefix=/home/${USER}/.${TARGET}
+cd src
+make
+make install
+cd ..
+cp libconfuse.pc /home/${USER}/.${TARGET}/lib/pkgconfig
+cd ..
+echo
+
 # build libftdi
 echo // building libftdi ==========================================================//
 git clone https://github.com/lipro/libftdi
 cd libftdi
 mkdir build
 cd build
-
-/usr/bin/cmake -DCMAKE_TOOLCHAIN_FILE=/home/${USER}/kcube/toolchain_x86_64-w64-mingw32.cmake \
-	-DCMAKE_INSTALL_PREFIX="/homes/${USER}/.${PREFIX}/" .. \
-	-DPKG_CONFIG_EXECUTABLE=/home/${USER}/kcube/x86_64-w64-mingw32-pkg-config
-	
+cmake -DCMAKE_TOOLCHAIN_FILE=/home/${USER}/kcube/${TARGET}_toolchain.cmake \
+	-DPKG_CONFIG_EXECUTABLE=/home/${USER}/kcube/${TARGET}-pkg-config \
+	-DCMAKE_INSTALL_PREFIX="/home/${USER}/.${TARGET}/" \
+    -Wno-dev \
+    ..
 make
 make install
+cd ..
 cd ..
 echo
 

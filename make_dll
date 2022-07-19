@@ -1,16 +1,19 @@
 # toolchain name
 ARCH=x86_64
-OS=w64
-TOOLS=mingw32
-PREFIX=${ARCH}-${OS}-${TOOLS}
-echo ${PREFIX}
+PLATFORM=w64
+TOOLCHAIN=mingw32
+TARGET=${ARCH}-${PLATFORM}-${TOOLCHAIN}
+echo ${TARGET}
+
+# set path
+PATH="/home/${USER}/.${TARGET}/bin:/usr/bin/local:/usr/bin"
 
 # set compiler and compiler paths
-CC=${PREFIX}-gcc
-SYSROOT=/usr/${PREFIX}/sys-root/mingw/
+CC=${TARGET}-gcc
+SYSROOT=/usr/${TARGET}/sys-root/mingw
 CFLAGS='-fpic -Wall -Werror'
-INC="-I/home/${USER}/.${PREFIX}/include -I${SYSROOT}/include/"
-LIB="-L/home/${USER}/.${PREFIX}/bin -L${SYSROOT}/lib/"
+INC="-I/home/${USER}/.${TARGET}/include -I/home/${USER}/.${TARGET}/include/libftdi1 -I${SYSROOT}/include"
+LIB="-L/home/${USER}/.${TARGET}/lib -L${SYSROOT}/lib"
 LIBS="-lftdi1 -lusb-1.0"
 
 echo "compiling"

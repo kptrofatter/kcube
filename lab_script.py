@@ -12,7 +12,8 @@ from time import sleep
 import kcube
 
 #kcube_dir = "C:\\cygwin64\\home\\Neurophos_Design\\kcube\\"
-kcube_dir = "/home/demob/projects/devices/kcube/"
+kcube_dir = "C:\\cygwin64\\home\\Neurophos\\kcube\\"
+#kcube_dir = "/home/demob/projects/devices/kcube/"
 libkcube = kcube.import_library(kcube_dir)
 
 
