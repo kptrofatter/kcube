@@ -28,14 +28,14 @@ KCUBE_MOTHERBOARD = 0x11
 KCUBE_USB_DEVICE = 0x50
 
 def import_library(kcube_dir):
-	
-	def prepend_to_os_path(path):
+
+	def append_to_os_path(path):
 		print("testing os path for '" + path + "'... ", end="")
 		os_path = os.environ["PATH"]
 		if os_path.find(path) == -1:
 			print("fail")
-			print("prepending to os path")
-			os.environ["PATH"] = path + os.pathsep + os_path
+			print("appending to os path")
+			os.environ["PATH"] = os_path + os.pathsep + path
 		else:
 			print("pass")
 	
@@ -66,10 +66,10 @@ def import_library(kcube_dir):
 		print("error: unsupported platform")
 		return -1
 		
-	# set os path (ensure 	kcube dependencies are found by system)
-	prepend_to_os_path(bin_dir)
+	# set os path (ensure kcube dependencies are found by system)
+	append_to_os_path(bin_dir)
 	
-	# import 	kcube dynamic library
+	# import kcube dynamic library
 	kcube_lib_pathname = kcube_dir + kcube_lib_filename
 	print("importing '" + kcube_lib_pathname + "'")
 	kcube = ctypes.CDLL(kcube_lib_pathname)
