@@ -44,7 +44,7 @@ if kpz101 == -1 or ksg101 == -1:
 	quit();
 
 # identify devices
-msg = cast(bytes(kcube_message_max_length), ctypes.POINTER(ctypes.c_uint8));
+msg = kcube.msg_buffer()
 libkcube.mgmsg_mod_identify(msg, dest, channel);
 libkcube.kcube_server_set(kpz101, msg);
 libkcube.kcube_server_set(ksg101, msg);
@@ -60,7 +60,7 @@ libkcube.mgmsg_mod_req_chanenablestate(msg, dest, channel)
 get = libkcube.kcube_server_request(kpz101, msg)
 libkcube.kcube_message_dump(get)
 # hw_req_info
-libkcube.mgmsg_hw_req_info(msg, dest, channel)
+libkcube.mgmsg_hw_req_info(msg, dest)
 get = libkcube.kcube_server_request(kpz101, msg)
 libkcube.kcube_message_dump(get)
 # pz_req_poscontrolmode

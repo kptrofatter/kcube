@@ -1,41 +1,51 @@
 #!/bin/bash
 
-ARCH=x86_64
-PLATFORM=w64
-TOOLCHAIN=mingw32
-TARGET=${ARCH}-${PLATFORM}-${TOOLCHAIN}
-SYSROOT=/usr/${TARGET}/sys-root/mingw
+ARCH="x86_64"
+PLATFORM="w64"
+TOOLS="mingw32"
+TARGET="${ARCH}-${PLATFORM}-${TOOLS}"
+echo "TARGET = ${TARGET}"
 
-PATH="/usr/local/bin:/usr/bin:${SYSROOT}/bin"
+SYSROOT="${TOOLSDIR}/sys-root/mingw"
+echo SYSROOT = ${SYSROOT}
 
+TOOLSDIR="/usr/${TARGET}"
+PATH="${TOOLSDIR}/bin:/usr/local/bin:/usr/bin"
+echo PATH = ${PATH}
+
+echo "tools"
 CC=${TARGET}-gcc
 CXX=${TARGET}-g++
 PKG_CONFIG=${TARGET}-pkg-config
+which ${CC}
+which ${CXX}
+which pkg-config
 
-rm -rf build
-rm -rf /home/${USER}/.${TARGET}/*
+echo "cleaning directories \"./build\" and \"${HOME}/.${TARGET}\""
+rm -rf build/*
+rm -rf ${HOME}/.${TARGET}/*
 
 mkdir build
 cd build
 
 # build libusb
-echo // building libusb ===========================================================//
-git clone https://github.com/libusb/libusb
-cd libusb
-./bootstrap.sh
-./configure \
-	CC=${CC} \
-	CFLAGS=-Wno-array-bounds \
-	CXX=${CXX} \
-	PKG_CONFIG=${PKGCONFIG} \
-	PKG_CONFIG_LIBDIR="${SYSROOT}/lib/pkgconfig:${SYSROOT}/share/pkgconfig" \
-	--host=${TARGET} \
-	--with-sysroot=${SYSROOT} \
-	--prefix=/home/${USER}/.${TARGET}
-make
-make install
-cd ..
-echo
+#echo // building libusb ===========================================================//
+#git clone https://github.com/libusb/libusb
+#cd libusb
+#./bootstrap.sh
+#./configure \
+#	CC=${CC} \
+#	CFLAGS=-Wno-array-bounds \
+#	CXX=${CXX} \
+#	PKG_CONFIG=${PKGCONFIG} \
+#	PKG_CONFIG_LIBDIR="${SYSROOT}/lib/pkgconfig:${SYSROOT}/share/pkgconfig" \
+#	--host=${TARGET} \
+#	--with-sysroot=${SYSROOT} \
+#	--prefix=${HOME}/.${TARGET}
+#make
+#make install
+#cd ..
+#echo
 
 echo // building libconfuse =======================================================//
 # build libconfuse
@@ -48,12 +58,12 @@ cd libconfuse
 	PKG_CONFIG_LIBDIR="${SYSROOT}/lib/pkgconfig:${SYSROOT}/share/pkgconfig" \
 	--host=${TARGET} \
 	--with-sysroot=${SYSROOT} \
-	--prefix=/home/${USER}/.${TARGET}
+	--prefix=${HOME}/.${TARGET}
 cd src
 make
 make install
 cd ..
-cp libconfuse.pc /home/${USER}/.${TARGET}/lib/pkgconfig
+cp libconfuse.pc ${HOME}/.${TARGET}/lib/pkgconfig/libconfuse.pc
 cd ..
 echo
 
@@ -63,9 +73,9 @@ git clone https://github.com/lipro/libftdi
 cd libftdi
 mkdir build
 cd build
-cmake -DCMAKE_TOOLCHAIN_FILE=/home/${USER}/kcube/${TARGET}_toolchain.cmake \
-	-DPKG_CONFIG_EXECUTABLE=/home/${USER}/kcube/${TARGET}-pkg-config \
-	-DCMAKE_INSTALL_PREFIX="/home/${USER}/.${TARGET}/" \
+cmake -DCMAKE_TOOLCHAIN_FILE=${HOME}/kcube/${TARGET}_toolchain.cmake \
+	-DPKG_CONFIG_EXECUTABLE=${HOME}/kcube/${TARGET}-pkg-config \
+	-DCMAKE_INSTALL_PREFIX="${HOME}/.${TARGET}/" \
     -Wno-dev \
     ..
 make

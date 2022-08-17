@@ -6,20 +6,23 @@ TARGET=${ARCH}-${PLATFORM}-${TOOLCHAIN}
 echo ${TARGET}
 
 # set path
-PATH="/home/${USER}/.${TARGET}/bin:/usr/bin/local:/usr/bin"
+PATH="/usr/${TARGET}/bin:/usr/bin/local:/usr/bin"
 
 # set compiler and compiler paths
 CC=${TARGET}-gcc
 SYSROOT=/usr/${TARGET}/sys-root/mingw
-CFLAGS='-fpic -Wall -Werror'
-INC="-I/home/${USER}/.${TARGET}/include -I/home/${USER}/.${TARGET}/include/libftdi1 -I${SYSROOT}/include"
-LIB="-L/home/${USER}/.${TARGET}/lib -L${SYSROOT}/lib"
-LIBS="-lftdi1 -lusb-1.0"
+CFLAGS='-fpic -Wall' # -Werror'
+INC="-I${HOME}/.${TARGET}/include -I${HOME}/.${TARGET}/include/libftdi1 -I${SYSROOT}/include"
+LIB="-L${HOME}/.${TARGET}/lib -L${SYSROOT}/lib"
+
+# dynamically link libraries
+LIBS="-lusb-1.0 -lftdi1"
 
 echo "compiling"
 ${CC} -c kcube_message.c ${CFLAGS}
 ${CC} -c kcube_server.c ${INC} -pthread ${CFLAGS}
 
 echo "linking"
-${CC} -shared -o libkcube.dll kcube_message.o kcube_server.o ${LIB} ${LIBS} -pthread ${CFLAGS}
+${CC} -shared -s -o libkcube.dll kcube_message.o kcube_server.o ${LIB} ${LIBS} -pthread ${CFLAGS}
+#${CC} -shared -s -o libkcube.dll kcube_message.o ${LIB} ${LIBS} ${CFLAGS}
 

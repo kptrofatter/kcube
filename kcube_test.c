@@ -40,11 +40,13 @@ int main(void)
 	
 	// test request message
 	uint8_t *get;
+	get = (unsigned char*)"xxxxxx\0";
 	mgmsg_hw_req_info(msg, KCUBE_USB_DEVICE);
 	get = kcube_server_request(kpz101, msg);
-	kcube_message_dump(get);
+	//kcube_message_dump(get);
 	get = kcube_server_request(ksg101, msg);
-	kcube_message_dump(get);
+	//kcube_message_dump(get);
+	printf("%p\n", (void*)get);
 	
 	// start update messages
 	fprintf(stderr, "start updates\n");

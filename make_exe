@@ -1,7 +1,15 @@
-CC=gcc
-${CC} -c kcube_message.c -Wall -Werror
-${CC} -c kcube_server.c -I/usr/include/libftdi1/ -pthread -Wall -Werror
-${CC} -c kcube_test.c -Wall -Werror
-#${CC} -static -o kcube_test.exe kcube_test.o kcube_message.o kcube_server.o /usr/lib/libftdi1.a /usr/lib/libusb-1.0.a -pthread -Wall -Werror
-${CC} -o kcube_test.exe kcube_test.o kcube_message.o kcube_server.o -lftdi1 -lusb-1.0 -pthread -Wall -Werror
+
+TARGET=x86_64-w64-mingw32
+SYSROOT=/usr/${TARGET}/sys-root/mingw
+
+CC=/bin/${TARGET}-gcc
+CFLAGS="-Wall -Werror"
+INC="-I${HOME}/.${TARGET}/include -I${HOME}/.${TARGET}/include/libftdi1 -I${SYSROOT}/include"
+LIB="-L${HOME}/.${TARGET}/lib -L${SYSROOT}/lib"
+LIBS="-lftdi1 -lusb-1.0"
+
+${CC} -c kcube_message.c ${CFLAGS}
+${CC} -c kcube_server.c ${INC} -pthread ${CFLAGS}
+${CC} -c kcube_test.c ${CFLAGS}
+${CC} -o kcube_test.exe kcube_test.o kcube_message.o kcube_server.o ${LIB} ${LIBS} -pthread ${CFLAGS}
 rm *.o
